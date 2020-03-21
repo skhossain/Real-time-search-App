@@ -30,6 +30,18 @@
         </div>
       </div>
     </div>
+  <div class="row pt-3">
+    <div v-for="post in posts" :key="post.id">
+    <div class="col-md-4">
+      <img :src="post.image" class="img-fluid" alt="post image">
+    </div>
+    <div class="col-md-8">
+      <h2>{{post.title}}</h2>
+      <p>{{post.content}}</p>
+    </div>
+    </div>
+  </div>
+    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
@@ -41,7 +53,9 @@ export default {
       search_results: "",
       resultDiv: {
         display: "none"
-      }
+      },
+      posts:[],
+      page:1,
     };
   },
   methods: {
@@ -52,6 +66,18 @@ export default {
         .then(function(response) {
           app.search_results=response.data;
         });
+    },
+    infiniteHandler($state){
+      axios.get('/getposts/?page='+this.page).
+      then(responce => {
+        if (responce.data.data.length) {
+          this.page += 1;
+          this.posts.push(...responce.data.data);
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      });
     }
   },
   watch: {

@@ -21,6 +21,10 @@ window.Vue = require('vue');
 
 Vue.component('search', require('./components/ExampleComponent.vue').default);
 
+
+import InfiniteLoading from 'vue-infinite-loading';
+
+Vue.use(InfiniteLoading, { /* options */ });
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/search/{val}','postController@search')->name('search');
+Route::get('/getposts','postController@getpost')->name('getpost');
 
